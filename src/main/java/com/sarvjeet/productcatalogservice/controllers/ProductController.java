@@ -1,6 +1,10 @@
 package com.sarvjeet.productcatalogservice.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +27,8 @@ public class ProductController {
   }
 
   @GetMapping
-  public void getAllProducts() {
+  public List<GenericProductDto> getAllProducts() {
+    return productService.getAllProducts();
   }
 
   @GetMapping("{id}")
@@ -32,11 +37,17 @@ public class ProductController {
   }
 
   @DeleteMapping("{id}")
-  public void deleteProductById(@PathVariable("id") Long id) {
+  public ResponseEntity<GenericProductDto> deleteProductById(@PathVariable("id") Long id) {
+     return new ResponseEntity<>(
+                productService.deleteProduct(id),
+                HttpStatus.OK
+        );
   }
 
   @PutMapping("{id}")
-  public void updateProductById(@PathVariable("id") Long id) {
+  public GenericProductDto updateProductById(@PathVariable("id") Long id, @RequestBody GenericProductDto product) {
+    
+    return productService.updateProduct(id, product);
 
   }
 
