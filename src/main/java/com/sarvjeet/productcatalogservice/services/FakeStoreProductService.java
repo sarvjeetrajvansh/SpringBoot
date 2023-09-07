@@ -99,8 +99,7 @@ public class FakeStoreProductService implements ProductService {
   @Override
   public GenericProductDto updateProduct(Long id, GenericProductDto product) {
     RestTemplate restTemplate = restTemplateBuilder.build();
-
-    RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
+    RequestCallback requestCallback = restTemplate.httpEntityCallback(product, FakeStoreProductDto.class);
     ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate
         .responseEntityExtractor(FakeStoreProductDto.class);
     ResponseEntity<FakeStoreProductDto> response = restTemplate.execute(getProductRequestUrl, HttpMethod.PUT,
